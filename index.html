@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Su Takibi - Sağlıklı bir yaşam için günlük su tüketiminizi takip edin. iOS ve Android için ücretsiz su takip uygulaması.">
+    <title>Su Takibi - Water Tracker | Günlük Su İçme Takip Uygulaması</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #4FC3F7 0%, #29B6F6 50%, #26C6DA 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: white;
+        }
+        
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            margin-bottom: 40px;
+        }
+        
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn:hover, .lang-btn.active {
+            background: white;
+            color: #29B6F6;
+            border-color: white;
+        }
+        
+        /* Content Sections */
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #29B6F6;
+        }
+        
+        .feature-desc {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Download Buttons */
+        .download-section {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: #29B6F6;
+            padding: 18px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .download-btn img {
+            width: 30px;
+            height: 30px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 25px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="app-icon">💧</div>
+            <h1 id="title">Su Takibi</h1>
+            <p class="subtitle" id="subtitle">Günlük Su İçme Alışkanlığınızı Takip Edin</p>
+            
+            <div class="language-switcher">
+                <button class="lang-btn active" onclick="switchLanguage('tr')">🇹🇷 Türkçe</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">🇬🇧 English</button>
+                <button class="lang-btn" onclick="switchLanguage('de')">🇩🇪 Deutsch</button>
+                <button class="lang-btn" onclick="switchLanguage('fr')">🇫🇷 Français</button>
+                <button class="lang-btn" onclick="switchLanguage('ru')">🇷🇺 Русский</button>
+                <button class="lang-btn" onclick="switchLanguage('ar')">🇸🇦 العربية</button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Turkish Content -->
+        <div class="content active" id="content-tr">
+            <section>
+                <h2>Hakkında</h2>
+                <p>Su Takibi, sağlıklı bir yaşam için günlük su tüketiminizi takip etmenize yardımcı olan kapsamlı bir mobil uygulamadır. Kilo ve aktivite seviyenize göre otomatik olarak günlük su ihtiyacınızı hesaplar ve sizi düzenli olarak su içmeye teşvik eder.</p>
+            </section>
+            
+            <section>
+                <h2>Özellikler</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-title">Akıllı Su Takibi</div>
+                        <div class="feature-desc">Otomatik günlük hedef hesaplama ve kolay su ekleme</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Detaylı İstatistikler</div>
+                        <div class="feature-desc">Son 7 günün görsel grafiği ve raporlar</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Başarım Sistemi</div>
+                        <div class="feature-desc">4 seviye rozet sistemi ile motivasyon</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">Liderlik Tablosu</div>
+                        <div class="feature-desc">Arkadaşlarınızla rekabet edin</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">Sosyal Özellikler</div>
+                        <div class="feature-desc">Arkadaş ekleme ve karşılaştırma</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <div class="feature-title">Akıllı Bildirimler</div>
+                        <div class="feature-desc">Kişiselleştirilmiş hatırlatıcılar</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- English Content -->
+        <div class="content" id="content-en">
+            <section>
+                <h2>About</h2>
+                <p>Water Tracker is a comprehensive mobile application designed to help you track your daily water consumption for a healthier lifestyle. It automatically calculates your daily water needs based on your weight and activity level, encouraging you to drink water regularly throughout the day.</p>
+            </section>
+            
+            <section>
+                <h2>Features</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-title">Smart Water Tracking</div>
+                        <div class="feature-desc">Automatic daily goal calculation and easy water addition</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Detailed Statistics</div>
+                        <div class="feature-desc">Visual chart of the last 7 days and reports</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Achievement System</div>
+                        <div class="feature-desc">Motivation with 4-level badge system</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">Leaderboard</div>
+                        <div class="feature-desc">Compete with your friends</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">Social Features</div>
+                        <div class="feature-desc">Add friends and compare</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <div class="feature-title">Smart Notifications</div>
+                        <div class="feature-desc">Personalized reminders</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- German Content -->
+        <div class="content" id="content-de">
+            <section>
+                <h2>Über</h2>
+                <p>Wasser Tracker ist eine umfassende mobile Anwendung, die Ihnen hilft, Ihren täglichen Wasserkonsum für einen gesünderen Lebensstil zu verfolgen. Sie berechnet automatisch Ihren täglichen Wasserbedarf basierend auf Ihrem Gewicht und Aktivitätsniveau und ermutigt Sie, den ganzen Tag über regelmäßig Wasser zu trinken.</p>
+            </section>
+            
+            <section>
+                <h2>Funktionen</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-title">Intelligentes Wasser-Tracking</div>
+                        <div class="feature-desc">Automatische tägliche Zielberechnung und einfaches Hinzufügen von Wasser</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Detaillierte Statistiken</div>
+                        <div class="feature-desc">Visuelles Diagramm der letzten 7 Tage und Berichte</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Achievement-System</div>
+                        <div class="feature-desc">Motivation mit 4-Ebenen-Abzeichen-System</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">Bestenliste</div>
+                        <div class="feature-desc">Konkurrieren Sie mit Ihren Freunden</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">Soziale Funktionen</div>
+                        <div class="feature-desc">Freunde hinzufügen und vergleichen</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <div class="feature-title">Intelligente Benachrichtigungen</div>
+                        <div class="feature-desc">Personalisierte Erinnerungen</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- French Content -->
+        <div class="content" id="content-fr">
+            <section>
+                <h2>À propos</h2>
+                <p>Water Tracker est une application mobile complète conçue pour vous aider à suivre votre consommation quotidienne d'eau pour un mode de vie plus sain. Elle calcule automatiquement vos besoins quotidiens en eau en fonction de votre poids et de votre niveau d'activité, vous encourageant à boire de l'eau régulièrement tout au long de la journée.</p>
+            </section>
+            
+            <section>
+                <h2>Caractéristiques</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-title">Suivi intelligent de l'eau</div>
+                        <div class="feature-desc">Calcul automatique de l'objectif quotidien et ajout facile d'eau</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Statistiques détaillées</div>
+                        <div class="feature-desc">Graphique visuel des 7 derniers jours et rapports</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Système de réalisations</div>
+                        <div class="feature-desc">Motivation avec système de badges à 4 niveaux</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">Classement</div>
+                        <div class="feature-desc">Rivalisez avec vos amis</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">Fonctionnalités sociales</div>
+                        <div class="feature-desc">Ajouter des amis et comparer</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <div class="feature-title">Notifications intelligentes</div>
+                        <div class="feature-desc">Rappels personnalisés</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Russian Content -->
+        <div class="content" id="content-ru">
+            <section>
+                <h2>О приложении</h2>
+                <p>Water Tracker - это комплексное мобильное приложение, предназначенное для отслеживания ежедневного потребления воды для более здорового образа жизни. Оно автоматически рассчитывает вашу ежедневную потребность в воде на основе вашего веса и уровня активности, побуждая вас регулярно пить воду в течение всего дня.</p>
+            </section>
+            
+            <section>
+                <h2>Функции</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-title">Умное отслеживание воды</div>
+                        <div class="feature-desc">Автоматический расчет ежедневной цели и простое добавление воды</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">Подробная статистика</div>
+                        <div class="feature-desc">Визуальный график последних 7 дней и отчеты</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Система достижений</div>
+                        <div class="feature-desc">Мотивация с 4-уровневой системой значков</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">Таблица лидеров</div>
+                        <div class="feature-desc">Соревнуйтесь с друзьями</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">Социальные функции</div>
+                        <div class="feature-desc">Добавление друзей и сравнение</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <div class="feature-title">Умные уведомления</div>
+                        <div class="feature-desc">Персонализированные напоминания</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Arabic Content -->
+        <div class="content" id="content-ar">
+            <section>
+                <h2>حول التطبيق</h2>
+                <p>Water Tracker هو تطبيق شامل مصمم لمساعدتك على تتبع استهلاكك اليومي للماء من أجل نمط حياة صحي. يحسب تلقائياً احتياجاتك اليومية من الماء بناءً على وزنك ومستوى نشاطك، مما يشجعك على شرب الماء بانتظام طوال اليوم.</p>
+            </section>
+            
+            <section>
+                <h2>الميزات</h2>
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-title">تتبع الماء الذكي</div>
+                        <div class="feature-desc">حساب الهدف اليومي تلقائياً وإضافة الماء بسهولة</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-title">إحصائيات مفصلة</div>
+                        <div class="feature-desc">مخطط مرئي للأيام السبعة الأخيرة والتقارير</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">نظام الإنجازات</div>
+                        <div class="feature-desc">دافع مع نظام شارات 4 مستويات</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">لوحة المتصدرين</div>
+                        <div class="feature-desc">تنافس مع أصدقائك</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <div class="feature-title">ميزات اجتماعية</div>
+                        <div class="feature-desc">إضافة الأصدقاء والمقارنة</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <div class="feature-title">إشعارات ذكية</div>
+                        <div class="feature-desc">تذكيرات مخصصة</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <div class="download-section">
+        <div class="container">
+            <h2 id="download-title" style="color: white; font-size: 2rem; margin-bottom: 10px;">İndirin</h2>
+            <p id="download-subtitle" style="color: white; opacity: 0.9; font-size: 1.2rem;">iOS ve Android için ücretsiz</p>
+            <div class="download-buttons">
+                <a href="https://apps.apple.com" class="download-btn" id="appstore-btn">
+                    <span>📱</span>
+                    <span id="appstore-text">App Store'dan İndir</span>
+                </a>
+                <a href="https://play.google.com" class="download-btn" id="playstore-btn">
+                    <span>🤖</span>
+                    <span id="playstore-text">Google Play'den İndir</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p id="footer-text">Made with ❤️ using Flutter</p>
+            <div class="footer-links">
+                <a href="PRIVACY_POLICY.md" class="footer-link" id="privacy-link">Gizlilik Politikası</a>
+                <a href="https://github.com/yourusername/su_takibi" class="footer-link">GitHub</a>
+                <a href="mailto:support@sutakibi.com" class="footer-link" id="contact-link">İletişim</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        const translations = {
+            tr: {
+                title: 'Su Takibi',
+                subtitle: 'Günlük Su İçme Alışkanlığınızı Takip Edin',
+                downloadTitle: 'İndirin',
+                downloadSubtitle: 'iOS ve Android için ücretsiz',
+                appstore: 'App Store\'dan İndir',
+                playstore: 'Google Play\'den İndir',
+                privacy: 'Gizlilik Politikası',
+                contact: 'İletişim'
+            },
+            en: {
+                title: 'Water Tracker',
+                subtitle: 'Track Your Daily Water Drinking Habit',
+                downloadTitle: 'Download',
+                downloadSubtitle: 'Free for iOS and Android',
+                appstore: 'Download on App Store',
+                playstore: 'Download on Google Play',
+                privacy: 'Privacy Policy',
+                contact: 'Contact'
+            },
+            de: {
+                title: 'Wasser Tracker',
+                subtitle: 'Verfolgen Sie Ihre tägliche Trinkgewohnheit',
+                downloadTitle: 'Herunterladen',
+                downloadSubtitle: 'Kostenlos für iOS und Android',
+                appstore: 'Im App Store herunterladen',
+                playstore: 'Bei Google Play herunterladen',
+                privacy: 'Datenschutzerklärung',
+                contact: 'Kontakt'
+            },
+            fr: {
+                title: 'Water Tracker',
+                subtitle: 'Suivez votre habitude quotidienne de consommation d\'eau',
+                downloadTitle: 'Télécharger',
+                downloadSubtitle: 'Gratuit pour iOS et Android',
+                appstore: 'Télécharger sur l\'App Store',
+                playstore: 'Télécharger sur Google Play',
+                privacy: 'Politique de Confidentialité',
+                contact: 'Contact'
+            },
+            ru: {
+                title: 'Water Tracker',
+                subtitle: 'Отслеживайте свою ежедневную привычку пить воду',
+                downloadTitle: 'Скачать',
+                downloadSubtitle: 'Бесплатно для iOS и Android',
+                appstore: 'Скачать в App Store',
+                playstore: 'Скачать в Google Play',
+                privacy: 'Политика Конфиденциальности',
+                contact: 'Контакты'
+            },
+            ar: {
+                title: 'Water Tracker',
+                subtitle: 'تتبع عادة شرب الماء اليومية',
+                downloadTitle: 'تحميل',
+                downloadSubtitle: 'مجاناً لـ iOS و Android',
+                appstore: 'تحميل من App Store',
+                playstore: 'تحميل من Google Play',
+                privacy: 'سياسة الخصوصية',
+                contact: 'اتصل بنا'
+            }
+        };
+        
+        function switchLanguage(lang) {
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content visibility
+            document.querySelectorAll('.content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`content-${lang}`).classList.add('active');
+            
+            // Update header texts
+            const t = translations[lang];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('download-title').textContent = t.downloadTitle;
+            document.getElementById('download-subtitle').textContent = t.downloadSubtitle;
+            document.getElementById('appstore-text').textContent = t.appstore;
+            document.getElementById('playstore-text').textContent = t.playstore;
+            document.getElementById('privacy-link').textContent = t.privacy;
+            document.getElementById('contact-link').textContent = t.contact;
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+    </script>
+</body>
+</html>
+
